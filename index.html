@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Julven Condor</title>
+	<meta name="description" content="Web developer, specializing in front end technologies and libraries (HTML, CSS, Javascript, Bootstrap, ReactJS, VueJS)">
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <script defer src="https://unpkg.com/@babel/standalone@7/babel.js"></script>
+	<script defer src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script defer src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script> -->
+    <script  src="cdn/babel.js"></script>
+	<script  src="cdn/react.development.js"></script>
+    <script  src="cdn/react-dom.development.js"></script>
+   	<script  src="cdn/bootstrap.bundle.min.js" ></script>
+
+    <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <!-- <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src=""></script> -->
+	<!-- <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="context.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="card.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="footer.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="contact.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="example.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="examples.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="skills.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="about.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="core.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="carousel.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="home.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="navbar.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="test.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="index.jsx"></script>
+    <script defer type="text/babel" data-plugins="transform-modules-umd" data-type="module" src="app.jsx"></script> -->
+    
+</head>
+<body>
+	<div class="d-flex flex-column  vh-100 justify-content-center"  id="loading">
+			<div class=" d-flex justify-content-center">
+				<div class="spinner-border text-primary " role="status">
+				  <span class="visually-hidden ">Loading...</span>
+				</div>
+			</div>
+			<div class=" d-flex justify-content-center">
+				<p class="text-primary">Loading...</p>
+				
+			</div>
+			<a href="" onclick="reload(this)" hidden id="refresh" class=" text-center">refresh (ctrl+f5)</a>
+		</div>
+	</div>
+	<div id="app"></div>
+	<script  type="text/Javascript">
+		// let reload = (e) => {
+		// 	e.preventDefault()
+		// 	location.reload(true);
+		// }
+		// setTimeout( () => {
+		// 	try{
+		// 		document.querySelector("#refresh").removeAttribute("hidden")
+		// 	}catch(err) {
+
+		// 	}
+			
+		// }, 5000)
+
+		const init = async () => {
+			let compiled = []
+			let promises = []
+			const jsx = [
+				"declare.jsx",
+				"context.jsx",
+				"card.jsx",
+				"footer.jsx",
+				"contact.jsx",
+				"example.jsx",
+				"examples.jsx",
+				"skills.jsx",
+				"about.jsx",
+				"core.jsx",
+				"carousel.jsx",
+				"home.jsx",
+				"navbar.jsx",
+							
+				"app.jsx",
+				"index.jsx",	
+				];
+
+			jsx.forEach( x => {
+				promises.push( () => fetch(x))
+			})
+
+			// console.log(promises)
+
+			let resp = await Promise.all(promises.map( x => x()))
+
+			for( x in resp) {
+				let text = await resp[x].text()
+				// console.log(text)
+				compiled.push(text)
+			}
+
+			// console.log(Babel)
+			console.log(compiled.join(' '))
+			const result = Babel.transform(compiled.join(' '), {
+				presets: ['es2015', 'react']
+			}).code
+
+			
+
+			new Function(result)()
+		}
+
+		window.onload = init()
+	</script>
+	
+</body>
+</html>
