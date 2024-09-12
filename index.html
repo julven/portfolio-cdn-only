@@ -100,13 +100,13 @@
 				compiled.push(text)
 			}
 
-			// console.log(Babel)
+		
 			// console.log(compiled.join(' '))
 			const result = Babel.transform(compiled.join(' '), {
 				presets: ['es2015', 'react']
 			}).code
 
-			
+			// console.log(result)
 
 			new Function(result)()
 		}
